@@ -16,14 +16,21 @@ on:
 jobs:  
   Infra-vnet:
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID : ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET : ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID : ${{ secrets.SUBSCRIPTION }}
+      ARM_TENANT_ID : ${{ secrets.TENANT_ID }}
+      ARM_ACCESS_KEY : ${{ secrets.STORAGE_ACCESS_KEY }}
+      
 
     steps:  
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v1.2.1
-      - name: login to Azure
-        run: az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
-      - name: set env variable
-        run: export ARM_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}
+      #- name: login to Azure
+       # run: az login --service-principal --username ${{ secrets.CLIENT_ID }} --password ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+      #- name: set env variable
+       # run: export ARM_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}
       
       - name: Run terraform init
         id: init
@@ -32,10 +39,10 @@ jobs:
 
       - name: Run terraform plan
         id: plan
-        run: terraform plan -var="rgName=${{ github.event.inputs.rgName }}" -var="location=${{ github.event.inputs.location }}" -var="client_id=${{ secrets.CLIENT_ID }}" -var="client_secret=${{ secrets.CLIENT_SECRET }}" -var="tenant_id=${{ secrets.TENANT_ID }}" -var="subscription_id=${{ secrets.SUBSCRIPTION }} 
+        run: terraform plan #-var="rgName=${{ github.event.inputs.rgName }}" -var="location=${{ github.event.inputs.location }}" -var="client_id=${{ secrets.CLIENT_ID }}" -var="client_secret=${{ secrets.CLIENT_SECRET }}" -var="tenant_id=${{ secrets.TENANT_ID }}" -var="subscription_id=${{ secrets.SUBSCRIPTION }} 
         working-directory: vnet
       
       - name: Run terraform apply
         id: apply
-        run: terraform apply -var="rgName=${{ github.event.inputs.rgName }}" -var="location=${{ github.event.inputs.location }}" -var="client_id=${{ secrets.CLIENT_ID }}" -var="client_secret=${{ secrets.CLIENT_SECRET }}" -var="tenant_id=${{ secrets.TENANT_ID }}" -var="subscription_id=${{ secrets.SUBSCRIPTION }}"
+        run: terraform apply #-var="rgName=${{ github.event.inputs.rgName }}" -var="location=${{ github.event.inputs.location }}" -var="client_id=${{ secrets.CLIENT_ID }}" -var="client_secret=${{ secrets.CLIENT_SECRET }}" -var="tenant_id=${{ secrets.TENANT_ID }}" -var="subscription_id=${{ secrets.SUBSCRIPTION }}"
         working-directory: vnet
