@@ -38,9 +38,7 @@ jobs:
         run: terraform init
         #working-directory: vnet
         
-      - name: Run terraform force unlock
-        #id: init
-        run: terraform force-unlock 30606eba-dc91-13d3-69fb-f6035b440fc5
+  
 
       - name: Run terraform plan
         id: plan
