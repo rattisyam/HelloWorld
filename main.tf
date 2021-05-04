@@ -27,7 +27,7 @@ terraform {
 provider "azurerm" {
 	 #version = "~>2.0"
 	 version = "1.37.0"
-	 features {}
+	 #features {}
 }
 resource "azurerm_virtual_network" "example" {
   name                = "virtualNetwork1"
